@@ -74,3 +74,6 @@ pids
 
 # Husky
 .husky/_
+
+# Claude configuration files
+CLAUDE.md
