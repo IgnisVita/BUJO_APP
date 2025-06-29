@@ -1,64 +1,76 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-.venv/
-ENV/
-env.bak/
-venv.bak/
-*.egg-info/
-dist/
-build/
-*.egg
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Node.js
-node_modules/
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
-yarn.lock
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# PWA files
+/public/sw.js
+/public/sw.js.map
+/public/workbox-*.js
+/public/workbox-*.js.map
+/public/worker-*.js
+/public/worker-*.js.map
+/public/fallback-*.js
+/public/fallback-*.js.map
+/public/precache-*.js
+/public/precache-*.js.map
 
 # IDE
-.vscode/
-.idea/
+.idea
+.vscode
 *.swp
 *.swo
 *~
-.DS_Store
 
-# Environment variables
-.env
-.env.local
-.env.*.local
+# OS
+Thumbs.db
 
 # Logs
-logs/
+logs
 *.log
 
-# Testing
-coverage/
-.coverage
-htmlcov/
-.pytest_cache/
-.tox/
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Temporary files
-*.tmp
-*.temp
-tmp/
-temp/
-
-# Build outputs
-dist/
-build/
-out/
+# Husky
+.husky/_

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2017",
+    "lib": ["ES2021", "WebWorker"],
+    "types": ["@serwist/next/typings"],
+    "isolatedModules": true,
+    "noEmit": true
+  },
+  "include": ["src/app/sw.ts"]
+}
