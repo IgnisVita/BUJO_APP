@@ -241,6 +241,16 @@ export function MainNav({ className, onCommandPaletteOpen, onSearchOpen }: MainN
               Calendar
             </Button>
           </Link>
+          <Link href="/journal/customizer">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start gap-3"
+            >
+              <Settings className="h-4 w-4 text-muted-foreground" />
+              Grid Customizer
+            </Button>
+          </Link>
           <Button
             variant="ghost"
             size="sm"

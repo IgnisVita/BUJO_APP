@@ -1,0 +1,272 @@
+/* ABOUTME: Dot grid specific styles with print support and paper effects */
+/* Provides realistic journal appearance with shadows, textures, and print-friendly output */
+
+/* Base dot grid canvas styles */
+.dot-grid-canvas {
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  cursor: crosshair;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Paper effects */
+.paper-shadow {
+  box-shadow: 
+    0 1px 1px rgba(0,0,0,0.15),
+    0 10px 40px rgba(0,0,0,0.08),
+    0 2px 4px rgba(0,0,0,0.06),
+    inset 0 0 0 1px rgba(0,0,0,0.02);
+}
+
+.paper-shadow-lifted {
+  box-shadow: 
+    0 1px 1px rgba(0,0,0,0.12),
+    0 20px 50px rgba(0,0,0,0.12),
+    0 4px 8px rgba(0,0,0,0.08),
+    inset 0 0 0 1px rgba(0,0,0,0.02);
+}
+
+/* Journal page styles */
+.journal-page {
+  position: relative;
+  background: #fefefe;
+  transition: box-shadow 0.3s ease;
+}
+
+.journal-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.01) 2px,
+      rgba(0,0,0,0.01) 4px
+    );
+  pointer-events: none;
+}
+
+/* Paper texture overlay */
+.paper-texture {
+  position: relative;
+}
+
+.paper-texture::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Cream paper variant */
+.paper-cream {
+  background-color: #fffef8;
+}
+
+/* White paper variant */
+.paper-white {
+  background-color: #ffffff;
+}
+
+/* Recycled paper variant */
+.paper-recycled {
+  background-color: #f8f6f1;
+}
+
+/* Grid pattern overlays */
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+/* Dot pattern using CSS */
+.dot-pattern {
+  background-image: radial-gradient(circle, #b0b0b0 1px, transparent 1px);
+  background-size: 18.9px 18.9px; /* 5mm standard */
+  background-position: 0 0;
+}
+
+/* Line pattern using CSS */
+.line-pattern {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 25.5px,
+    #d0d0d0 25.5px,
+    #d0d0d0 26px
+  );
+}
+
+/* Graph pattern using CSS */
+.graph-pattern {
+  background-image: 
+    repeating-linear-gradient(
+      to right,
+      #e0e0e0 0px,
+      #e0e0e0 0.5px,
+      transparent 0.5px,
+      transparent 18.9px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      #e0e0e0 0px,
+      #e0e0e0 0.5px,
+      transparent 0.5px,
+      transparent 18.9px
+    );
+}
+
+/* Margin indicators */
+.margin-line-left {
+  position: absolute;
+  left: 60px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(255, 128, 128, 0.3);
+}
+
+.margin-line-top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+  height: 1px;
+  background-color: rgba(128, 128, 255, 0.2);
+}
+
+/* Page numbers */
+.page-number {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Georgia', serif;
+  font-size: 11px;
+  color: #999;
+  user-select: none;
+}
+
+/* Date header */
+.page-date {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-family: 'Georgia', serif;
+  font-size: 11px;
+  color: #999;
+  user-select: none;
+}
+
+/* Scrollbar styling */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-neutral-400::-webkit-scrollbar-thumb {
+  background-color: #a3a3a3;
+  border-radius: 4px;
+}
+
+.scrollbar-thumb-neutral-600::-webkit-scrollbar-thumb {
+  background-color: #525252;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Print styles */
+@media print {
+  /* Hide UI elements */
+  .no-print,
+  .control-bar,
+  .settings-panel,
+  .page-navigation,
+  button,
+  .scrollbar-thin {
+    display: none !important;
+  }
+
+  /* Reset page styling for print */
+  .journal-page {
+    box-shadow: none !important;
+    page-break-after: always;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Ensure proper page sizing */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* Canvas adjustments for print */
+  .dot-grid-canvas {
+    width: 210mm !important;
+    height: 297mm !important;
+    max-width: 100% !important;
+  }
+
+  /* Adjust grid opacity for better printing */
+  .dot-pattern {
+    opacity: 0.6;
+  }
+
+  /* Remove backgrounds */
+  body,
+  .journal-container {
+    background: white !important;
+  }
+
+  /* Page numbers for print */
+  .page-number {
+    font-size: 10pt;
+    color: #666;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .paper-shadow {
+    box-shadow: 
+      0 1px 1px rgba(0,0,0,0.3),
+      0 10px 40px rgba(0,0,0,0.2),
+      0 2px 4px rgba(0,0,0,0.15),
+      inset 0 0 0 1px rgba(255,255,255,0.02);
+  }
+
+  .journal-page {
+    background: #1a1a1a;
+  }
+
+  .paper-texture::after {
+    opacity: 0.01;
+  }
+
+  .dot-pattern {
+    background-image: radial-gradient(circle, #606060 1px, transparent 1px);
+  }
+}

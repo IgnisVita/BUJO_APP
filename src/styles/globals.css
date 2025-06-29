@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import dot grid styles */
+@import './dotgrid.css';
+
 /* Design System CSS Variables */
 @layer base {
   :root {

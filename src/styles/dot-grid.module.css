@@ -1,0 +1,191 @@
+/* ABOUTME: Dot grid module CSS with multiple pattern styles
+   Provides visible dots, crosses, and grid patterns for bullet journaling */
+
+.dotGridBackground {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.paperTexture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.9' numOctaves='4' seed='5' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.gridPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+/* Ensure dots are visible */
+.dotPattern {
+  background-image: radial-gradient(
+    circle at center,
+    currentColor 1.2px,
+    transparent 1.2px
+  );
+  background-size: 19px 19px;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+/* Cross pattern */
+.crossPattern {
+  background-image: 
+    linear-gradient(currentColor 0.8px, transparent 0.8px),
+    linear-gradient(90deg, currentColor 0.8px, transparent 0.8px);
+  background-size: 19px 19px;
+  background-position: 
+    9.5px 0,
+    0 9.5px;
+  background-repeat: repeat;
+}
+
+/* Grid pattern with major lines */
+.gridPatternFull {
+  background-image: 
+    /* Minor grid lines */
+    linear-gradient(rgba(176, 176, 176, 0.4) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, rgba(176, 176, 176, 0.4) 0.5px, transparent 0.5px),
+    /* Major grid lines every 5 cells */
+    linear-gradient(rgba(176, 176, 176, 0.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(176, 176, 176, 0.6) 1px, transparent 1px);
+  background-size: 
+    19px 19px,
+    19px 19px,
+    95px 95px,
+    95px 95px;
+  background-position: 
+    0 0,
+    0 0,
+    0 0,
+    0 0;
+}
+
+/* Line pattern */
+.linePattern {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 18.5px,
+    currentColor 18.5px,
+    currentColor 19px
+  );
+}
+
+/* Dark mode adjustments */
+.darkMode {
+  color: #606060;
+}
+
+.darkMode .paperTexture {
+  mix-blend-mode: screen;
+  opacity: 0.01;
+}
+
+/* Print styles */
+@media print {
+  .dotGridBackground {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .paperTexture {
+    display: none;
+  }
+  
+  .gridPattern {
+    opacity: 0.6 !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .gridPattern {
+    opacity: 0.8 !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .dotGridBackground,
+  .gridPattern,
+  .content {
+    transition: none !important;
+  }
+}
+
+/* Custom dot animations (optional) */
+@keyframes dotPulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.6; }
+  100% { opacity: 0.4; }
+}
+
+.animatedDots .gridPattern {
+  animation: dotPulse 4s ease-in-out infinite;
+}
+
+/* Spacing variations */
+.spacing-4mm {
+  --dot-spacing: 15.1px;
+}
+
+.spacing-5mm {
+  --dot-spacing: 18.9px;
+}
+
+.spacing-6mm {
+  --dot-spacing: 22.7px;
+}
+
+/* Dot size variations */
+.dotSize-small {
+  --dot-size: 0.8px;
+}
+
+.dotSize-medium {
+  --dot-size: 1.2px;
+}
+
+.dotSize-large {
+  --dot-size: 1.6px;
+}
+
+/* Paper color variations */
+.paper-white {
+  background-color: #ffffff;
+}
+
+.paper-cream {
+  background-color: #fffef8;
+}
+
+.paper-gray {
+  background-color: #f8f8f8;
+}
+
+.paper-recycled {
+  background-color: #f5f3ed;
+}

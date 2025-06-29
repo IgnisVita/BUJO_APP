@@ -96,7 +96,6 @@ export const viewport: Viewport = {
 
 import { InstallPrompt } from '@/components/pwa/InstallPrompt'
 import { UpdatePrompt } from '@/components/pwa/UpdatePrompt'
-import { Navigation } from '@/components/layout/Navigation'
 
 export default function RootLayout({
   children,
@@ -124,14 +123,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="min-h-screen bg-background text-neutral-900 dark:text-neutral-100 antialiased">
+      <body className="min-h-screen bg-white text-neutral-900 antialiased">
         {/* Theme Provider would go here */}
-        <div className="relative flex min-h-screen flex-col">
-          <Navigation />
-          <main className="flex-1">
-            {children}
-          </main>
-        </div>
+        {children}
         {/* PWA Components */}
         <InstallPrompt />
         <UpdatePrompt />

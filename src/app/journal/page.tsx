@@ -1,244 +1,81 @@
-// ABOUTME: Simplified journal page without complex dependencies
-// Basic page structure for navigation testing
+// ABOUTME: Simplified journal page focused on the dot grid experience
+// Clean implementation that shows visible dots immediately
 
 'use client';
 
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { format } from 'date-fns';
+import { Settings, FileText } from 'lucide-react';
 import Link from 'next/link';
-import { 
-  Plus, 
-  Calendar,
-  Search,
-  Book,
-  PenTool,
-  CheckSquare,
-  Circle,
-  Minus
-} from 'lucide-react';
-
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
-import { cn } from '@/lib/utils/cn';
-
-interface MockEntry {
-  id: number;
-  content: string;
-  type: 'task' | 'note' | 'event';
-  status?: 'completed' | 'pending';
-  timestamp: Date;
-}
-
-const mockEntries: MockEntry[] = [
-  {
-    id: 1,
-    content: 'Review project proposal',
-    type: 'task',
-    status: 'pending',
-    timestamp: new Date(),
-  },
-  {
-    id: 2,
-    content: 'Meeting with design team at 2pm',
-    type: 'event',
-    timestamp: new Date(),
-  },
-  {
-    id: 3,
-    content: 'Great progress on the new feature today. Team collaboration was excellent.',
-    type: 'note',
-    timestamp: new Date(),
-  },
-  {
-    id: 4,
-    content: 'Call Sarah about project timeline',
-    type: 'task',
-    status: 'completed',
-    timestamp: new Date(),
-  },
-];
 
 export default function JournalPage() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [newEntry, setNewEntry] = useState('');
-  const [entries, setEntries] = useState<MockEntry[]>(mockEntries);
-
-  const handleAddEntry = () => {
-    if (!newEntry.trim()) return;
-
-    const entry: MockEntry = {
-      id: Date.now(),
-      content: newEntry,
-      type: newEntry.startsWith('•') ? 'task' : 'note',
-      status: newEntry.startsWith('•') ? 'pending' : undefined,
-      timestamp: new Date(),
-    };
-
-    setEntries([entry, ...entries]);
-    setNewEntry('');
-  };
-
-  const toggleTaskStatus = (id: number) => {
-    setEntries(entries.map(entry => 
-      entry.id === id && entry.type === 'task'
-        ? { ...entry, status: entry.status === 'completed' ? 'pending' : 'completed' }
-        : entry
-    ));
-  };
-
-  const getEntryIcon = (entry: MockEntry) => {
-    if (entry.type === 'task') {
-      return entry.status === 'completed' 
-        ? <CheckSquare className="w-4 h-4 text-green-600" />
-        : <Circle className="w-4 h-4 text-blue-600" />;
-    }
-    if (entry.type === 'event') {
-      return <Calendar className="w-4 h-4 text-purple-600" />;
-    }
-    return <Minus className="w-4 h-4 text-gray-600" />;
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-950 dark:to-neutral-900">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="container mx-auto px-4 py-8 max-w-4xl"
-      >
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-                Journal
-              </h1>
-              <p className="text-neutral-600 dark:text-neutral-400">
-                {format(selectedDate, 'EEEE, MMMM d, yyyy')}
-              </p>
+    <div className="relative h-screen overflow-hidden">
+      {/* Minimal Header - Only visible on hover */}
+      <div className="absolute top-0 left-0 right-0 z-20 opacity-0 hover:opacity-100 transition-opacity duration-300">
+        <div className="flex items-center justify-between px-6 py-3 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded flex items-center justify-center">
+              <span className="text-white text-xs font-bold">B</span>
             </div>
-
-            <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm">
-                <Search className="w-4 h-4 mr-2" />
-                Search
-              </Button>
-              <Button variant="outline" size="sm">
-                <Calendar className="w-4 h-4 mr-2" />
-                Calendar View
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Entry */}
-        <Card className="p-6 mb-6">
-          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
-            Quick Entry
-          </h2>
-          <div className="flex gap-3">
-            <Input
-              placeholder="What's on your mind? Use • for tasks, → for events"
-              value={newEntry}
-              onChange={(e) => setNewEntry(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleAddEntry();
-                }
-              }}
-              className="flex-1"
-            />
-            <Button onClick={handleAddEntry}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add
-            </Button>
-          </div>
-          <div className="mt-3 text-sm text-neutral-500 dark:text-neutral-400">
-            Tip: Start with • for tasks, → for events, or just write notes naturally
-          </div>
-        </Card>
-
-        {/* Entries */}
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-              Today's Entries
-            </h2>
-            <span className="text-sm text-neutral-500 dark:text-neutral-400">
-              {entries.length} entries
-            </span>
-          </div>
-
-          <div className="space-y-4">
-            {entries.map((entry) => (
-              <motion.div
-                key={entry.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={cn(
-                  'flex items-start gap-3 p-4 rounded-lg border transition-all',
-                  'hover:bg-neutral-50 dark:hover:bg-neutral-800',
-                  entry.type === 'task' && entry.status === 'completed' 
-                    ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
-                    : 'bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-700'
-                )}
-              >
-                <button
-                  onClick={() => toggleTaskStatus(entry.id)}
-                  className="mt-0.5 hover:scale-110 transition-transform"
-                  disabled={entry.type !== 'task'}
-                >
-                  {getEntryIcon(entry)}
-                </button>
-                
-                <div className="flex-1 min-w-0">
-                  <p className={cn(
-                    'text-neutral-900 dark:text-neutral-100',
-                    entry.type === 'task' && entry.status === 'completed' && 'line-through opacity-70'
-                  )}>
-                    {entry.content}
-                  </p>
-                  <div className="flex items-center gap-2 mt-2 text-xs text-neutral-500 dark:text-neutral-400">
-                    <span className="capitalize">{entry.type}</span>
-                    <span>•</span>
-                    <span>{format(entry.timestamp, 'h:mm a')}</span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-
-            {entries.length === 0 && (
-              <div className="text-center py-12">
-                <Book className="w-12 h-12 text-neutral-400 dark:text-neutral-600 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-neutral-900 dark:text-neutral-100 mb-2">
-                  No entries yet
-                </h3>
-                <p className="text-neutral-600 dark:text-neutral-400 mb-6">
-                  Start writing your thoughts, tasks, and experiences
-                </p>
-                <Button onClick={() => document.querySelector('input')?.focus()}>
-                  <PenTool className="w-4 h-4 mr-2" />
-                  Write your first entry
-                </Button>
-              </div>
-            )}
-          </div>
-        </Card>
-
-        {/* Footer */}
-        <div className="mt-8 text-center">
-          <div className="inline-flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400">
-            <span>Press Enter to add entries</span>
-            <span>•</span>
-            <span>Click icons to toggle tasks</span>
-            <span>•</span>
-            <Link href="/calendar" className="hover:text-primary-600 transition-colors">
-              View in Calendar
+            <span className="text-sm font-semibold">BUJO</span>
+          </Link>
+          
+          <div className="flex items-center gap-4">
+            <Link 
+              href="/templates" 
+              className="flex items-center gap-1 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100"
+            >
+              <FileText className="w-4 h-4" />
+              Templates
+            </Link>
+            <Link 
+              href="/settings" 
+              className="flex items-center gap-1 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100"
+            >
+              <Settings className="w-4 h-4" />
+              Settings
             </Link>
           </div>
         </div>
-      </motion.div>
+      </div>
+
+      {/* Main Content - VISIBLE Dot Grid */}
+      <div 
+        className="w-full h-full"
+        style={{
+          backgroundColor: '#ffffff',
+          backgroundImage: 'radial-gradient(circle, #999999 1px, transparent 1px)',
+          backgroundSize: '19px 19px',
+          backgroundPosition: '0 0',
+        }}
+      >
+        {/* Optional date indicator */}
+        <div className="absolute top-8 right-8 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm">
+          <div className="text-sm text-gray-600">
+            {new Date().toLocaleDateString('en-US', { 
+              weekday: 'long',
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </div>
+        </div>
+
+        {/* Page indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm px-3 py-1 rounded text-sm text-gray-600">
+          Page 1
+        </div>
+
+        {/* Instructions */}
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-sm px-6 py-4 rounded-lg shadow-lg text-center max-w-md">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">Dot Grid Active</h2>
+          <p className="text-sm text-gray-600 mb-3">
+            You should now see visible dots covering the entire page. This is your bullet journal dot grid with 5mm spacing.
+          </p>
+          <p className="text-xs text-gray-500">
+            The dots are gray circles spaced 19px apart (5mm at standard resolution)
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

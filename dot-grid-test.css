@@ -1,0 +1,28 @@
+/* Test CSS for visible dot grid */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #ffffff;
+    background-image: radial-gradient(circle, #999999 1px, transparent 1px);
+    background-size: 19px 19px;
+    background-position: 0 0;
+}
+
+.test-content {
+    padding: 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    margin: 20px;
+    border-radius: 8px;
+}
+
+/* Alternative darker dots for testing */
+.dark-dots {
+    background-image: radial-gradient(circle, #666666 1.5px, transparent 1.5px);
+}
+
+/* Alternative spacing for testing */
+.larger-spacing {
+    background-size: 25px 25px;
+}
